@@ -29,6 +29,12 @@ class TestResponse:
     def internal_server_error_response(self):
         return ResponseFactory.internal_server_error()
 
+    @fixture
+    def general_error_response(self):
+        return ResponseFactory.error(
+            status.HTTP_405_METHOD_NOT_ALLOWED, "Method Not Allowed"
+        )
+
     def get_response_body(self, response: JSONResponse) -> dict:
         return json.loads(response.body.decode())
 
@@ -73,4 +79,12 @@ class TestResponse:
         )
         assert body["success"] is False
         assert body["message"] == "Internal server error"
+        assert body["data"] is None
+
+    def test_general_error_response(self, general_error_response):
+        body = self.get_response_body(general_error_response)
+
+        assert general_error_response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+        assert body["success"] is False
+        assert body["message"] == "Method Not Allowed"
         assert body["data"] is None
