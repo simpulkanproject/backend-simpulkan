@@ -50,6 +50,12 @@ class ResponseFactory:
         )
 
     @staticmethod
+    def error(status_code: int, message: str, data: Any = None) -> JSONResponse:
+        return ResponseFactory.__build_response(
+            status_code=status_code, success=False, message=message, data=data
+        )
+
+    @staticmethod
     def __build_response(
         status_code: int, success: bool, message: str, data: Any = None
     ) -> JSONResponse:
