@@ -32,7 +32,7 @@ class TestResponse:
         return ResponseFactory.not_found("News analysis not found")
     
     @fixture
-    def internal_server_error_response():
+    def internal_server_error_response(self):
         return ResponseFactory.internal_server_error()
 
         
